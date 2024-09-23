@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Learning Day</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .day-box {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .day-box:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Select Your Learning Day</h1>
+        <p>Each day introduces a new set of vocabulary words and exercises.</p>
+
+        <!-- Form to select a day via buttons -->
+        <form method="POST">
+            <div class="days-grid">
+                <!-- Loop through days and create buttons -->
+                {% for day in range(1, plan_days + 1) %}
+                    <button type="submit" class="day-box" name="day" value="{{ day }}">Day {{ day }}</button>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+</body>
+</html>
