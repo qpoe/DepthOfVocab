@@ -129,9 +129,5 @@ def level4(day, plan):
     return render_template('level4.html', plan=plan, day=day, words=day_words, fillings=day_fillings)
 
 
-def main():
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
-
 if __name__ == '__main__':
-    main()
+    app.run()
