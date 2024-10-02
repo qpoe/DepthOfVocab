@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day {{ day }}, Level 2</title>
+    <link rel="stylesheet" href="/static/css/level2.css">
+</head>
+<body>
+    <h1>Day {{ day }}, Level 2 - Collocations</h1>
+    <button type="button" class="collapsible">Level 2</button>
+    <div class="content">
+      <p>Level 2 is Skills and Concept.
+          It is aimed at making students familiar with
+          the collocations of related words.
+          That is, through collocations, alternative meanings
+          of words in the context were understood.
+          You are given table of collocations. Read and try to memorize the usage.
+          <br> Good luck! You've got this.</p>
+    </div>
+    <div class="container">
+        {% for word in collocations %}
+            <div class="word-box">
+                <div class="word">{{ word.word }}</div>
+                <table>
+                  <tr>
+                    <td id="first">{{ word.collocations.split('<br>')[0] }}</td>
+                    <td id="second">{{ word.collocations.split('<br>')[1] }}</td>
+                    <td id="third">{{ word.collocations.split('<br>')[2] }}</td>
+                  </tr>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+        <form method="get" action="{{ url_for('level1', plan=plan, day=day) }}">
+            <button class="check-button" type="submit">Previous Level</button>
+        </form>
+        <form method="get" action="{{ url_for('level3', plan=plan, day=day) }}">
+            <button class="check-button" type="submit">Next Level</button>
+        </form>
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+              content.style.display = "none";
+            } else {
+              content.style.display = "block";
+            }
+          });
+          }
+    </script>
+</body>
+{% endblock %}

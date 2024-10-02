@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day {{ day }}, Level 1</title>
+    <link rel="stylesheet" href="/static/css/level1.css"></head>
+<body>
+    <h1>Day {{ day }}, Level 1 - Vocabulary and Synonyms</h1>
+    <button type="button" class="collapsible">Level 1</button>
+    <div class="content">
+      <p>Level 1 is Recall and Reproduction.
+          It is aimed at simply making an associative series
+          for students and to familiarize themselves with words.
+          You are given flashcards with new words that you can click
+          and open definitions. The second task is to match all
+          synonyms with words. <br> Good luck! You've got this.</p>
+    </div>
+    <div class="flashcards-container">
+        <br>
+        {% for item in words %}
+
+        <div class="flashcard" onclick="flipCard(this)">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    {{ item.word }}
+                </div>
+                <div class="flashcard-back">
+                    {{ item.definition }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="matching-game">
+        <div class="synonyms-container">
+            <div class="synonyms">
+                <h3>Synonyms</h3>
+                {% for item in synonyms %}
+                <div class="synonym" id="synonym-{{ loop.index }}" data-word="{{ item.word }}" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    {{ ', '.join(item.synonyms) }}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="words">
+                <h3>Words</h3>
+                {% for item in synonyms %}
+                <div class="word" draggable="true" ondragstart="drag(event)" id="word-{{ loop.index }}" data-word="{{ item.word }}">
+                    {{ item.word }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button class="check-button" onclick="checkMatch()">Check Matches</button>
+
+        <div id="result" class="result"></div>
+            <form method="get" action="{{ url_for('level2', plan=plan, day=day) }}">
+                <button class="check-button" type="submit">Next Level</button>
+            </form>
+    </div>
+
+    <script>
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function checkMatch() {
+            var correctMatches = 0;
+            var totalMatches = {{ synonyms | length }};
+
+            for (var i = 1; i <= totalMatches; i++) {
+                var synonym = document.getElementById('synonym-' + i);
+                var wordElement = synonym.querySelector('.word');
+
+                if (wordElement && wordElement.getAttribute('data-word') === synonym.getAttribute('data-word')) {
+                    correctMatches++;
+                }
+            }
+
+            var resultElement = document.getElementById('result');
+            if (correctMatches === totalMatches) {
+                resultElement.innerHTML = "Great job! All matches are correct.";
+                resultElement.classList.remove('error');
+                resultElement.classList.add('success');
+            } else {
+                resultElement.innerHTML = "You got " + correctMatches + " out of " + totalMatches + " correct. Keep trying!";
+                resultElement.classList.remove('success');
+                resultElement.classList.add('error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const synonyms = Array.from(document.querySelectorAll('.synonym'));
+            shuffle(synonyms);
+            const container = document.querySelector('.synonyms');
+            synonyms.forEach(synonym => container.appendChild(synonym));
+        });
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+              content.style.display = "none";
+            } else {
+              content.style.display = "block";
+            }
+          });
+        }
+    </script>
+</body>
+
+{% endblock %}
