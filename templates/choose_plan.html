@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Learning Plan</title>
+    <link rel="stylesheet" href="/static/css/plan.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Select Your Learning Plan</h1>
+        <form method="POST">
+            <button type="submit" name="plan" value="7">7 Days</button>
+            <button type="submit" name="plan" value="10">10 Days</button>
+            <button type="submit" name="plan" value="15">15 Days</button>
+            <button type="submit" name="plan" value="20">20 Days</button>
+        </form>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day {{ day }}, Level 4</title>
+    <link rel="stylesheet" href="/static/css/level4.css">
+</head>
+<body>
+    <h1>Day {{ day }}, Level 4 - Gap Fillings</h1>
+    <button type="button" class="collapsible">Level 4</button>
+    <div class="content">
+      <p>Level 4 is Extended Thinking.
+          It is aimed at ensuring that students
+          can correctly determine the context of words on
+          their own. <b> Fill in all the fields! </b> The answer
+          verification button will be available only after
+          you fill all of them out! <br> Good luck! You've got this.</p>
+    </div>
+    <div class="container">
+        <form method="POST">
+            {% for filling in fillings %}
+                <div class="gap-box">
+                    <div class="sentence">
+                        {{ filling.fill | safe }}
+                    </div>
+                    <input type="text" name="answer{{ loop.index }}" placeholder="Enter word" class="answer-input">
+                </div>
+            {% endfor %}
+            <button class="check-button" id="check-button" type="submit" disabled>Check Answers</button>
+        </form>
+                <div class="button-container">
+            <form method="get" action="{{ url_for('level3', plan=plan, day=day) }}">
+                <button class="check-button" type="submit">Previous Level</button>
+            </form>
+        </div>
+    </div>
+<script>
+       function checkInputs() {
+            const inputs = document.querySelectorAll('.answer-input');
+            let allFilled = true;
+
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    allFilled = false;
+                }
+            });
+
+            document.getElementById('check-button').disabled = !allFilled;
+        }
+
+        const inputs = document.querySelectorAll('.answer-input');
+        inputs.forEach(input => {
+            input.addEventListener('input', checkInputs);
+        });
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+              content.style.display = "none";
+            } else {
+              content.style.display = "block";
+            }
+          });
+          }
+    </script>
+</body>
+{% endblock %}

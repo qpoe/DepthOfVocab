@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gap Filling Results</title>
+    <link rel="stylesheet" href="/static/css/results.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Results - Day {{ day }}</h1>
+        {% for answer in user_answers %}
+            <div class="result-box">
+                <strong>{{ answer.word }}:</strong>
+                {% if answer.correct %}
+                    <span class="correct">Correct! You wrote "{{ answer.user_answer }}"</span>
+                {% else %}
+                    <span class="incorrect">Incorrect! You wrote "{{ answer.user_answer }}", but the correct word is "{{ answer.word }}"</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}

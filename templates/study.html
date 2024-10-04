@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Learning Day</title>
+    <link rel="stylesheet" href="/static/css/study.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Select Your Learning Day</h1>
+        <p>Each day introduces a new set of vocabulary words and exercises.</p>
+
+        <form method="POST">
+            <div class="days-grid">
+                {% for day in range(1, plan_days + 1) %}
+                    <button type="submit" class="day-box" name="day" value="{{ day }}">Day {{ day }}</button>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}
