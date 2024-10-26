@@ -14,7 +14,7 @@ fillings = []
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'some_secret_key'
-cur.execute("SELECT word_name, definition, synonyms, collocations, contextual, fill from vocabs")
+cur.execute("SELECT word_name, definition, synonyms, collocations, contextual, fill from vocabs ORDER BY RANDOM()")
 for word_name, definition, synonym, collocation, contextual, fill in cur.fetchall():
     words.append({"word": word_name, "definition": definition})
     synonyms.append({"word": word_name, "synonyms": str(synonym).split(',')})
