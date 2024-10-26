@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import re
+from random import shuffle
 
 con = sqlite3.connect("db/vocabulary.db")
 cur = con.cursor()
@@ -22,6 +23,7 @@ for word_name, definition, synonym, collocation, contextual, fill in cur.fetchal
     texts.append({"word": word_name, "contextual": contextual})
     fillings.append({"word": word_name, "fill": fill})
 cur.close()
+shuffle(fillings)
 
 
 @app.route('/')
@@ -140,7 +142,7 @@ def level4(day, plan):
 
     if request.method == "POST":
         user_answers = []
-        for idx, word in enumerate(day_words):
+        for idx, word in enumerate(day_fillings):
             user_answer = request.form.get(f'answer{idx + 1}')
             correct = user_answer.strip().lower() == word["word"].lower()
             user_answers.append({"word": word["word"], "user_answer": user_answer, "correct": correct})
